@@ -84,7 +84,12 @@ def validate_classroom(classroom_id):
     cursor.execute('SELECT id FROM classrooms WHERE number= ?', (classroom_id,))
     classroom = cursor.fetchone()
     return classroom is not None
-
+# Проверка, что преподаватель проводит менее 5 уроков в день
+def validate_teacher_schedule(teacher, date):
+    cursor.execute('SELECT COUNT(*) FROM schedule WHERE teacher LIKE ? AND date = ? AND status="active"', ('%' + teacher + '%', date))
+    lesson_count = cursor.fetchone()[0]
+    print(lesson_count)
+    return lesson_count < 5
 # Проверка ввода
 def validate_subject(subject):
     cursor.execute('SELECT id FROM subjects WHERE name= ?', (subject,))
