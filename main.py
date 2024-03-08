@@ -22,14 +22,20 @@ def main():
             teacher = input("Введите имя преподавателя: ")
             database.add_subject(name, teacher)
         elif choice == '2': # Добавление кабинета
-            capacity = int(input("Введите вместимость кабинета: "))
+
+            while True:
+                capacity = int(input("Введите вместимость кабинета: "))
+                if not capacity <=0:
+                    print("Вместимость не может быть отрицательной")
+                    break
 
             while True:
                 number = int(input("Введите номер кабинета (от 1 до 150): "))
-                if 1 <= number <= 150:
-                    break
-                else:
+                if not 1 <= number <= 150:
                     print('Введен неверный номер кабинета')
+                    continue
+                break
+
 
             database.add_classroom(number, capacity)
         elif choice == '3':# Добавление урока
@@ -38,11 +44,12 @@ def main():
             while True:
                 subject_name = input("Введите название предмета: ")
 
-                if database.validate_subject(subject_name):
-                    break
-                else:
+                if not database.validate_subject(subject_name):
                     print("Некорректное название предмета")
-            teacher = input("Введите имя преподавателя: ")
+                    continue
+                break
+
+
             classes = database.get_classroom()
             # Вывод информации о кабинетах
             for room in classes:
@@ -54,14 +61,20 @@ def main():
                 try:
                     classroom = int(input('Выберите кабинет: '))
 
-                    if database.validate_classroom(classroom):
-                        break
-                    else:
+                    if not database.validate_classroom(classroom):
                         print('Некорректный номер кабинета. Пожалуйста, выберите из списка.')
+                        continue
+                    break
+
+
                 except:
                     print("Неверный ввод")
 
             date = input("Введите дату урока (ГГГГ-ММ-ДД): ")
+            teacher = input("Введите имя преподавателя: ")
+            if not database.validate_teacher_schedule(teacher, date):
+                print("Преподаватель проводит уже 5 уроков в этот день. Выберите другую дату или преподавателя.")
+                continue
             # Добавление
             database.add_lesson(subject_name, teacher, classroom, date)
         elif choice == '4': # Вывод расписания на сегодняшний день
@@ -95,3 +108,4 @@ def main():
 # Если запуск произошел с главного файла
 if __name__ == "__main__":
     main()
+
