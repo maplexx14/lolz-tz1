@@ -67,17 +67,18 @@ def main():
         elif choice == '4': # Вывод расписания на сегодняшний день
             schedule = database.view_schedule_today()
             # Если расписание есть, то вывод
-            if schedule:
-                print("\nРасписание на сегодня:")
-                for lesson in schedule:
-                    print("ID урока:", lesson[4])
-                    print("Предмет:", lesson[0])
-                    print("Преподаватель:", lesson[1])
-                    print("Кабинет:", lesson[2])
-                    print("Вместимость кабинета:", lesson[3])
-                    print()
-            else:
+            if not schedule:
                 print("На сегодня расписания нет.")
+                continue
+
+            print("\nРасписание на сегодня:")
+            for lesson in schedule:
+                print("ID урока:", lesson[4])
+                print("Предмет:", lesson[0])
+                print("Преподаватель:", lesson[1])
+                print("Кабинет:", lesson[2])
+                print("Вместимость кабинета:", lesson[3])
+                print()
         elif choice == '5':# Скрытие записи
             record_id = int(input("Введите ID записи, которую хотите скрыть: "))
             if database.validate_record_id(record_id):
