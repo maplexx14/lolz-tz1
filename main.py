@@ -94,11 +94,13 @@ def main():
                 print()
         elif choice == '5':# Скрытие записи
             record_id = int(input("Введите ID записи, которую хотите скрыть: "))
-            if database.validate_record_id(record_id):
-                database.hide_schedule_record(record_id)
-                print("Запись успешно скрыта.")
-            else:
+            if not database.validate_record_id(record_id):
                 print("Некорректный ID записи.")
+                continue
+               
+            database.hide_schedule_record(record_id)
+            print("Запись успешно скрыта.")
+               
         elif choice == '6':# Выход из программы
             database.close_connection()
             break
