@@ -88,7 +88,6 @@ def validate_classroom(classroom_id):
 def validate_teacher_schedule(teacher, date):
     cursor.execute('SELECT COUNT(*) FROM schedule WHERE teacher LIKE ? AND date = ? AND status="active"', ('%' + teacher + '%', date))
     lesson_count = cursor.fetchone()[0]
-    print(lesson_count)
     return lesson_count < 5
 # Проверка ввода
 def validate_subject(subject):
